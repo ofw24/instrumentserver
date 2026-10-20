@@ -30,6 +30,8 @@
 <link href="../../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
   <script defer src="../../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
@@ -40,11 +42,13 @@
     <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=87473038"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/instrumentserver/client/application';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="canonical" href="https://toolsforexperiments.github.io/instrumentserver/_modules/instrumentserver/client/application.html" />
-    <link rel="author" title="About these documents" href="../../../about.html" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -140,8 +144,8 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../first_steps/index.html">
-    First Steps
+  <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+    Getting Started
   </a>
 </li>
 
@@ -154,8 +158,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../examples/index.html">
-    Code Examples
+  <a class="nav-link nav-internal" href="../../../technical_guide/index.html">
+    Technical Guide
   </a>
 </li>
 
@@ -285,8 +289,8 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../first_steps/index.html">
-    First Steps
+  <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+    Getting Started
   </a>
 </li>
 
@@ -299,8 +303,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../examples/index.html">
-    Code Examples
+  <a class="nav-link nav-internal" href="../../../technical_guide/index.html">
+    Technical Guide
   </a>
 </li>
 
@@ -436,7 +440,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">qtpy.QtWidgets</span><span class="w"> </span><span class="kn">import</span> <span class="n">QFileDialog</span><span class="p">,</span> <span class="n">QWidget</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">instrumentserver</span><span class="w"> </span><span class="kn">import</span> <span class="n">QtCore</span><span class="p">,</span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtWidgets</span><span class="p">,</span> <span class="n">getInstrumentserverPath</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">instrumentserver.blueprints</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParameterBroadcastBluePrint</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">instrumentserver.blueprints</span><span class="w"> </span><span class="kn">import</span> <span class="n">PARAMETER_UPDATE</span><span class="p">,</span> <span class="n">ParameterBroadcastBluePrint</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">instrumentserver.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClientStation</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">instrumentserver.client.proxy</span><span class="w"> </span><span class="kn">import</span> <span class="n">SubClient</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">instrumentserver.gui.instruments</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenericInstrument</span>
@@ -619,7 +623,7 @@
 <a class="viewcode-back" href="../../../api/generated/instrumentserver.client.application.html#instrumentserver.client.application.ClientStationGui.listenerEvent">[docs]</a>
     <span class="nd">@QtCore</span><span class="o">.</span><span class="n">Slot</span><span class="p">(</span><span class="n">ParameterBroadcastBluePrint</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">listenerEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="n">ParameterBroadcastBluePrint</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">action</span> <span class="o">==</span> <span class="s2">&quot;parameter-update&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">action</span> <span class="o">==</span> <span class="n">PARAMETER_UPDATE</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">action</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
@@ -904,7 +908,7 @@
 
   <p class="copyright">
     
-      © Copyright 2020-2026, Wolfgang Pfaff.
+      © Copyright 2020-2026, Tools For Experiments.
       <br/>
     
   </p>

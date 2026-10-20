@@ -31,6 +31,8 @@
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
   <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
@@ -41,15 +43,17 @@
     <script src="../_static/documentation_options.js?v=5929fcd5"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=87473038"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/index';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="canonical" href="https://toolsforexperiments.github.io/instrumentserver/user_guide/index.html" />
-    <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Configuration Files" href="configuration.html" />
-    <link rel="prev" title="Instrumentserver Overview" href="../first_steps/overview.html" />
+    <link rel="next" title="Python client" href="client.html" />
+    <link rel="prev" title="Instrumentserver Overview" href="../getting_started/overview.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -143,8 +147,8 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../first_steps/index.html">
-    First Steps
+  <a class="nav-link nav-internal" href="../getting_started/index.html">
+    Getting Started
   </a>
 </li>
 
@@ -157,8 +161,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../examples/index.html">
-    Code Examples
+  <a class="nav-link nav-internal" href="../technical_guide/index.html">
+    Technical Guide
   </a>
 </li>
 
@@ -290,8 +294,8 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../first_steps/index.html">
-    First Steps
+  <a class="nav-link nav-internal" href="../getting_started/index.html">
+    Getting Started
   </a>
 </li>
 
@@ -304,8 +308,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../examples/index.html">
-    Code Examples
+  <a class="nav-link nav-internal" href="../technical_guide/index.html">
+    Technical Guide
   </a>
 </li>
 
@@ -388,8 +392,16 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="client.html">Python client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">The Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui_features.html">GUI Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parameter_manager.html">Parameter Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client_station.html">Client Station</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monitoring.html">Monitoring</a></li>
 <li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="instrumentmonitoring.html">Instrument Monitoring</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced/virtual_instruments.html">Virtual Instruments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced/chaining_servers.html">Chaining Servers</a></li>
 </ul>
 </div>
 </nav></div>
@@ -452,6 +464,50 @@
 <p>This user guide is organized by different topics, each having their own guides. Use the left menu to navigate through them.</p>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="client.html">Python client</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="client.html#connections-and-instrument-discovery">Connections and instrument discovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="client.html#proxy-instruments">Proxy instruments</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="client.html#parameters-and-driver-methods">Parameters and driver methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="client.html#submodules-keep-their-structure">Submodules keep their structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="client.html#values-that-cross-the-connection">Values that cross the connection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="client.html#making-custom-classes-serializable">Making custom classes serializable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="client.html#following-the-full-lifecycle">Following the full lifecycle</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="client.html#parameter-snapshots">Parameter snapshots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="client.html#errors-and-timeouts">Errors and timeouts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">The Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui_features.html">GUI Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="parameter_manager.html">Parameter Manager</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="parameter_manager.html#concept">Concept</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameter_manager.html#hierarchical-parameters">Hierarchical parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameter_manager.html#types">Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="parameter_manager.html#editing-a-type">Editing a Type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parameter_manager.html#nested-types">Nested Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parameter_manager.html#removing-from-a-type">Removing from a Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="parameter_manager.html#locks">Locks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="parameter_manager.html#chains-and-cycles">Chains and cycles</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="parameter_manager.html#type-locks-and-globals">Type Locks and Globals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameter_manager.html#profiles-and-files">Profiles and files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameter_manager.html#the-gui">The GUI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="parameter_manager.html#the-parameters-tab">The Parameters tab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parameter_manager.html#the-locks-panel">The Locks panel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parameter_manager.html#the-types-tab">The Types tab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parameter_manager.html#deleting-a-target">Deleting a Target</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parameter_manager.html#keyboard-shortcuts">Keyboard shortcuts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="parameter_manager.html#using-it-from-measurement-code">Using it from measurement code</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="client_station.html">Client Station</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monitoring.html">Monitoring</a></li>
 <li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration Files</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="configuration.html#server-configuration">Server Configuration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="configuration.html#example-file">Example File</a></li>
@@ -493,7 +549,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="instrumentmonitoring.html#the-listener">The Listener</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="instrumentmonitoring.html#id1">Config File</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="instrumentmonitoring.html#listener-config-file">Config File</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="instrumentmonitoring.html#necessary-parameters-for-using-influxdb">Necessary Parameters for using InfluxDB</a></li>
 <li class="toctree-l4"><a class="reference internal" href="instrumentmonitoring.html#necessary-parameters-for-using-csv">Necessary Parameters for using CSV</a></li>
 </ul>
@@ -514,6 +570,8 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="advanced/virtual_instruments.html">Virtual Instruments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced/chaining_servers.html">Chaining Servers</a></li>
 </ul>
 </div>
 </section>
@@ -529,7 +587,7 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../first_steps/overview.html"
+       href="../getting_started/overview.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
@@ -538,11 +596,11 @@
       </div>
     </a>
     <a class="right-next"
-       href="configuration.html"
+       href="client.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Configuration Files</p>
+        <p class="prev-next-title">Python client</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -591,7 +649,7 @@
 
   <p class="copyright">
     
-      © Copyright 2020-2026, Wolfgang Pfaff.
+      © Copyright 2020-2026, Tools For Experiments.
       <br/>
     
   </p>

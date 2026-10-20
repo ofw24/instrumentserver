@@ -1,0 +1,17 @@
+﻿instrumentserver.serialize
+==========================
+
+.. automodule:: instrumentserver.serialize
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      fromParamDict
+      isSimpleFormat
+      toDataFrame
+      toParamDict
+      validateParamDict
+      validateParameterManagerV2
+   

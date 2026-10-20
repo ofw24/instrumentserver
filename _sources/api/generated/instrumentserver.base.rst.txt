@@ -1,0 +1,25 @@
+﻿instrumentserver.base
+=====================
+
+.. automodule:: instrumentserver.base
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      decode
+      encode
+      recv
+      recvMultipart
+      recv_router
+      send
+      sendBroadcast
+      send_router
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Broadcaster
+   

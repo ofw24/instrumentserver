@@ -30,6 +30,8 @@
 <link href="../../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
   <script defer src="../../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
@@ -40,11 +42,13 @@
     <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=87473038"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/instrumentserver/server/application';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="canonical" href="https://toolsforexperiments.github.io/instrumentserver/_modules/instrumentserver/server/application.html" />
-    <link rel="author" title="About these documents" href="../../../about.html" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -140,8 +144,8 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../first_steps/index.html">
-    First Steps
+  <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+    Getting Started
   </a>
 </li>
 
@@ -154,8 +158,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../examples/index.html">
-    Code Examples
+  <a class="nav-link nav-internal" href="../../../technical_guide/index.html">
+    Technical Guide
   </a>
 </li>
 
@@ -285,8 +289,8 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../first_steps/index.html">
-    First Steps
+  <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+    Getting Started
   </a>
 </li>
 
@@ -299,8 +303,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../examples/index.html">
-    Code Examples
+  <a class="nav-link nav-internal" href="../../../technical_guide/index.html">
+    Technical Guide
   </a>
 </li>
 
@@ -442,6 +446,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">..gui.instruments</span><span class="w"> </span><span class="kn">import</span> <span class="n">GenericInstrument</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..gui.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseDialog</span><span class="p">,</span> <span class="n">DetachableTabWidget</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..gui.parameters</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnyInputForMethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..gui.shortcuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">KeyboardShortcutManager</span><span class="p">,</span> <span class="n">ShortcutEditorWidget</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">InstrumentModuleBluePrint</span><span class="p">,</span> <span class="n">ParameterBluePrint</span><span class="p">,</span> <span class="n">StationServer</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -633,6 +638,8 @@
 <span class="sd">    :param kwargsStr: Optional, String with te args and kwargs separated by commas.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="c1">#: Signal(str, str, tuple) -- emitted when the dialog is accepted. Arguments are</span>
+    <span class="c1">#: the instrument type path, the instrument name, and the constructor args.</span>
     <span class="n">createInstrument</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
@@ -758,18 +765,18 @@
 <span class="sd">    the config or are the original args and kwargs passed when the instrument was created.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1">#: Signal(str, str, str) -- emitted when the one of the create buttons of the items gets pressed</span>
+    <span class="c1">#: Signal(str, str, str) -- emitted when the one of the create buttons of the items gets pressed.</span>
     <span class="c1">#: Arguments are in order:</span>
-    <span class="c1">#   The name of the instrument in the config,</span>
-    <span class="c1">#   the type of the instrument,</span>
-    <span class="c1">#   the name in the line edit indicating what the actual name in the station should be.</span>
+    <span class="c1">#: the name of the instrument in the config,</span>
+    <span class="c1">#: the type of the instrument,</span>
+    <span class="c1">#: the name in the line edit indicating what the actual name in the station should be.</span>
     <span class="n">createButtonPressed</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
 
-    <span class="c1">#: Signal(str, str, str) -- emitted when the create instrument based on this instrument is triggered</span>
+    <span class="c1">#: Signal(str, str, str) -- emitted when the create instrument based on this instrument is triggered.</span>
     <span class="c1">#: Arguments are in order:</span>
-    <span class="c1">#   The name of the instrument in the config,</span>
-    <span class="c1">#   the type of the instrument,</span>
-    <span class="c1">#   the name in the line edit indicating what the actual name in the station should be.</span>
+    <span class="c1">#: the name of the instrument in the config,</span>
+    <span class="c1">#: the type of the instrument,</span>
+    <span class="c1">#: the name in the line edit indicating what the actual name in the station should be.</span>
     <span class="n">basedInstrumentRequested</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
 
     <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Instrument Type &amp; Preset&quot;</span><span class="p">,</span> <span class="s2">&quot;Instrument Name&quot;</span><span class="p">,</span> <span class="s2">&quot;Create Instrument&quot;</span><span class="p">]</span>
@@ -1089,6 +1096,7 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">ServerGui</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMainWindow</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Main window of the qcodes station server.&quot;&quot;&quot;</span>
 
+    <span class="c1">#: Signal(int) -- declared but currently never emitted or connected.</span>
     <span class="n">serverPortSet</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
@@ -1107,8 +1115,11 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_guiConfig</span> <span class="o">=</span> <span class="n">guiConfig</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stationServerThread</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">shortcutConfig</span> <span class="o">=</span> <span class="n">serverKwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;shortcutConfig&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">configPath</span> <span class="o">=</span> <span class="n">serverKwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;configPath&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StationServer</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stationServerThread</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QtCore</span><span class="o">.</span><span class="n">QThread</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">instrumentTabsOpen</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">GenericInstrument</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -1127,8 +1138,8 @@
         <span class="p">)</span>
 
         <span class="c1"># A test client, just a simple helper object.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">EmbeddedClient</span><span class="p">(</span><span class="n">raise_exceptions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">recv_timeout_ms</span> <span class="o">=</span> <span class="mi">10_000</span>
+        <span class="c1"># timeout is in seconds; it configures the socket&#39;s receive timeout when connecting.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">EmbeddedClient</span><span class="p">(</span><span class="n">raise_exceptions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
         <span class="c1"># Central widget is simply a tab container.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tabs</span> <span class="o">=</span> <span class="n">DetachableTabWidget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -1157,6 +1168,13 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">serverStatus</span> <span class="o">=</span> <span class="n">ServerStatus</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tabs</span><span class="o">.</span><span class="n">addUnclosableTab</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serverStatus</span><span class="p">,</span> <span class="s2">&quot;Server&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">shortcutManager</span> <span class="o">=</span> <span class="n">KeyboardShortcutManager</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">shortcutConfig</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shortcutManager</span><span class="o">.</span><span class="n">load_from_dict</span><span class="p">(</span><span class="n">shortcutConfig</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">shortcutEditor</span> <span class="o">=</span> <span class="n">ShortcutEditorWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shortcutManager</span><span class="p">,</span> <span class="n">configPath</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tabs</span><span class="o">.</span><span class="n">addUnclosableTab</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shortcutEditor</span><span class="p">,</span> <span class="s2">&quot;Shortcuts&quot;</span><span class="p">)</span>
 
         <span class="c1"># Toolbar.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">toolBar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addToolBar</span><span class="p">(</span><span class="s2">&quot;Tools&quot;</span><span class="p">)</span>
@@ -1219,6 +1237,7 @@
         <span class="k">if</span> <span class="p">(</span>
             <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;stationServerThread&quot;</span><span class="p">)</span>
             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">stationServerThread</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="p">):</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stationServerThread</span><span class="o">.</span><span class="n">isRunning</span><span class="p">():</span>
                 <span class="k">try</span><span class="p">:</span>
@@ -1237,32 +1256,36 @@
 <a class="viewcode-back" href="../../../api/generated/instrumentserver.server.application.html#instrumentserver.server.application.ServerGui.startServer">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">startServer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the instrument server in a separate thread.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span> <span class="o">=</span> <span class="n">StationServer</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_serverKwargs</span><span class="p">)</span>  <span class="c1"># type: ignore[assignment]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stationServerThread</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QThread</span><span class="p">()</span>  <span class="c1"># type: ignore[assignment]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">moveToThread</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stationServerThread</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stationServerThread</span><span class="o">.</span><span class="n">started</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">startServer</span><span class="p">)</span>  <span class="c1"># type: ignore[arg-type,attr-defined]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">finished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;ZMQ server closed.&quot;</span><span class="p">))</span>  <span class="c1"># type: ignore[attr-defined]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">finished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stationServerThread</span><span class="o">.</span><span class="n">quit</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">finished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">deleteLater</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span> <span class="o">=</span> <span class="n">StationServer</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_serverKwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stationServerThread</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QThread</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">moveToThread</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stationServerThread</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stationServerThread</span><span class="o">.</span><span class="n">started</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">startServer</span><span class="p">)</span>  <span class="c1"># type: ignore[arg-type]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">finished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;ZMQ server closed.&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">finished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stationServerThread</span><span class="o">.</span><span class="n">quit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">finished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">deleteLater</span><span class="p">)</span>
 
         <span class="c1"># Connecting some additional things for messages.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">serverStarted</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serverStatus</span><span class="o">.</span><span class="n">setListeningAddress</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">serverStarted</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">serverStarted</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">refreshStationComponents</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">finished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">serverStarted</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serverStatus</span><span class="o">.</span><span class="n">setListeningAddress</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">serverStarted</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">serverStarted</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">refreshStationComponents</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">finished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
             <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;Server thread finished.&quot;</span><span class="p">,</span> <span class="n">LogLevels</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">messageReceived</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_messageReceived</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">instrumentCreated</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">addInstrumentToGui</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">funcCalled</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onFuncCalled</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">messageReceived</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_messageReceived</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">instrumentCreated</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">addInstrumentToGui</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">funcCalled</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">onFuncCalled</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">stationServerThread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>  <span class="c1"># type: ignore[attr-defined]</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stationServerThread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="ServerGui.getServerIfRunning">
 <a class="viewcode-back" href="../../../api/generated/instrumentserver.server.application.html#instrumentserver.server.application.ServerGui.getServerIfRunning">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">getServerIfRunning</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;StationServer&quot;</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">stationServerThread</span><span class="o">.</span><span class="n">isRunning</span><span class="p">():</span>  <span class="c1"># type: ignore[union-attr]</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">stationServerThread</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">stationServerThread</span><span class="o">.</span><span class="n">isRunning</span><span class="p">()</span>
+        <span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span></div>
@@ -1420,6 +1443,8 @@
                     <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_guiConfig</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;gui&quot;</span><span class="p">][</span><span class="s2">&quot;kwargs&quot;</span><span class="p">]</span>
 
             <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;sub_port&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sub_port&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stationServer</span><span class="o">.</span><span class="n">port</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># type: ignore[union-attr]</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;shortcutManager&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shortcutManager</span>
+
             <span class="n">insWidget</span> <span class="o">=</span> <span class="n">widgetClass</span><span class="p">(</span><span class="n">ins</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tabs</span><span class="o">.</span><span class="n">addTab</span><span class="p">(</span><span class="n">insWidget</span><span class="p">,</span> <span class="n">ins</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">instrumentTabsOpen</span><span class="p">[</span><span class="n">ins</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">insWidget</span>
@@ -1774,7 +1799,7 @@
 
   <p class="copyright">
     
-      © Copyright 2020-2026, Wolfgang Pfaff.
+      © Copyright 2020-2026, Tools For Experiments.
       <br/>
     
   </p>
